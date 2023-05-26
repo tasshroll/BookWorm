@@ -15,7 +15,7 @@ BookUser.init(
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'comment',
+        model: 'user',
         key: 'id',
       }
     },
@@ -32,7 +32,7 @@ BookUser.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'book_user',
+    modelName: 'bookUser',
   }
 );
 

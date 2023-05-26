@@ -1,13 +1,35 @@
 const User = require('./User');
-const Project = require('./Project');
+const Book = require('./Book');
+const BookUser = require('./BookUser');
+const Comment = require('./Comment');
 
-User.hasMany(Project, {
-  foreignKey: 'user_id',
+
+User.hasMany(Book, {
+  foreignKey: 'book.id',
   onDelete: 'CASCADE'
 });
 
-Project.belongsTo(User, {
-  foreignKey: 'user_id'
+Book.belongsTo(User, {
+  foreignKey: 'user.id'
 });
 
-module.exports = { User, Project };
+Comment.belongsTo(Book, {
+ foreignKey: 'book_id'
+})
+
+// Book belongToMany Users (through BookUser)
+Book.belongsToMany(User, {
+  // third table needed
+    foreignKey: 'user_id',
+    through: BookUser
+});
+
+// User belongToMany Book (through BookUser)
+User.belongsToMany(Book, {
+  // third table needed
+    foreignKey: 'book_id',
+    through: BookUser
+});
+
+
+module.exports = { User, Book, Comment, BookUser};

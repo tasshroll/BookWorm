@@ -3,7 +3,7 @@ const sequelize = require('../config/connection');
 
 class Project extends Model {}
 
-Project.init(
+Book.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,12 +11,13 @@ Project.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    book_title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
+    author_name: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     date_created: {
       type: DataTypes.DATE,

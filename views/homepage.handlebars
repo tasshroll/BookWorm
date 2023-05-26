@@ -1,24 +1,52 @@
 <!-- Loop over each object in the projects array -->
 {{#each projects as |project| }}
-<div class="row mb-4 project">
-  <div class="col-md-5">
-    <h2>
-      <!-- Call helper function with triple brackets to render the emoji span as HTML -->
-      {{{get_emoji}}}
-      <a href="/project/{{project.id}}">{{project.name}}</a>
-    </h2>
-    <p>
-      <span for="img" aria-label="money">💲</span>
-      <!-- Pass needed_funding value to the helper function -->
-      <span class="dollar-amount">{{format_amount project.needed_funding}}</span>
-      needed!
-    </p>
-    <p>Created by {{project.user.name}} on {{format_date project.date_created}}</p>
-  </div>
-  <div class="col-md-7">
-    <p>
-      {{project.description}}
-    </p>
-  </div>
-</div>
-{{/each}}
+<!DOCTYPE html>
+<html lang="en">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <div class="container is-fluid">
+  <nav class="navbar" id="theNav" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+    <div class = "mainHeader">
+        <h1>Book Worm</h1>
+    </div>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start" id="genre" >
+        <a class="navbar-item">
+          Home
+        </a>
+        <a class="navbar-item">
+          Fantasy
+        </a>
+        <a class="navbar-item">
+           Sci-fi
+          </a>
+          <a class="navbar-item">
+            Non-Fiction
+          </a>
+          <a class="navbar-item">
+            Fiction
+          </a>
+      </div>
+      <div class="navbar-end" id="logIn">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Sign up</strong>
+            </a>
+            <a class="button is-light">
+              Log in
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </nav>
+</head>

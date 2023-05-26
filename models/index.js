@@ -5,8 +5,8 @@ const Comment = require('./Comment');
 
 
 User.hasMany(Book, {
-  foreignKey: 'book.id',
-  onDelete: 'CASCADE'
+  foreignKey: 'book.id'
+  //onDelete: 'CASCADE'
 });
 
 Book.belongsTo(User, {
@@ -14,8 +14,9 @@ Book.belongsTo(User, {
 });
 
 Comment.belongsTo(Book, {
- foreignKey: 'book_id'
-})
+ foreignKey: 'book_id',
+ onDelete: 'CASCADE'
+});
 
 // Book belongToMany Users (through BookUser)
 Book.belongsToMany(User, {

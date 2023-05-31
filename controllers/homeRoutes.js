@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Project, User } = require('../models');
+const { Book, User} = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   try {
     // Get all projects and JOIN with user data
-    const projectData = await Project.findAll({
+    const projectsData = await Book.findAll({
       include: [
         {
           model: User,
@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
     });
 
     // Serialize data so the template can read it
-    const projects = projectData.map((project) => project.get({ plain: true }));
-    console.log (projects);
+    const projects = projectsData.map((project) => project.get({ plain: true }));
+    console.log(projects);
     
     // Pass serialized data and session flag into template
     res.render('homepage', { 
@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 
 router.get('/project/:id', async (req, res) => {
   try {
-    const projectData = await Project.findByPk(req.params.id, {
+    const projectData = await Book.findByPk(req.params.id, {
       include: [
         {
           model: User,
@@ -53,10 +53,10 @@ router.get('/project/:id', async (req, res) => {
 // Use withAuth middleware to prevent access to route
 router.get('/profile', withAuth, async (req, res) => {
   try {
-    // Find the logged in user based on the session ID
+    // Find the logged-in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
       attributes: { exclude: ['password'] },
-      include: [{ model: Project }],
+      include: [{ model: Book }],
     });
 
     const user = userData.get({ plain: true });

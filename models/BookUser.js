@@ -4,6 +4,7 @@ const sequelize = require('../config/connection');
 
 class BookUser extends Model { }
 
+//relaying user to a certain book
 BookUser.init(
   {
     id: {

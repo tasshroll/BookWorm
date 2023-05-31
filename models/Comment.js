@@ -12,9 +12,20 @@ Comment.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    user_id:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      refrences:{
+          model: 'user',
+          key: 'id'
+      }
+  },
     comment: {
       type: DataTypes.STRING,
       allowNull: false,
+      validate:{
+        len:[1]
+      }
     },
     date_created: {
       type: DataTypes.DATE,
@@ -34,7 +45,7 @@ Comment.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'project',
+    modelName: 'comment',
   }
 );
 

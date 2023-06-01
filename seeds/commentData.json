@@ -2,13 +2,13 @@
     {
       "comment": "Grapes of Wrath is an American Classic and a must read for all",
       "created_date": "2023-05-20T00:08:19.000Z",
-      "book_id": 1,
-      "user_id":2
+      "user_id":2,
+      "book_id": 1
     },
     {
         "comment": "Little Women made me cry when Beth died. The movie is great too!",
         "created_date": "2023-05-20T00:08:19.000Z",
-        "book_id": 2,
-        "user_id": 1
+        "user_id": 1,
+        "book_id": 2
     }
   ]

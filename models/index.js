@@ -4,19 +4,32 @@ const BookUser = require('./BookUser');
 const Comment = require('./Comment');
 
 
-User.hasMany(Book, {
-  foreignKey: 'book.id'
+// User.hasMany(Book, {
+//   foreignKey: 'book.id'
   //onDelete: 'CASCADE'
-});
+// });
 
-Book.belongsTo(User, {
-  foreignKey: 'user.id'
-});
+//////////////////// Remove this
+// Book.belongsTo(User, {
+//   foreignKey: 'user.id'
+// });
+
+Comment.belongsTo(User, {
+  foreignKey: 'user_id'
+  })
+
+  User.hasMany(Comment, {
+    foreignKey: 'user_id'
+  })
 
 Comment.belongsTo(Book, {
  foreignKey: 'book_id',
- onDelete: 'CASCADE'
 });
+
+///////////////////// Added this
+Book.hasMany(Comment, {
+ foreignKey: 'book_id'
+})
 
 // Book belongToMany Users (through BookUser)
 Book.belongsToMany(User, {

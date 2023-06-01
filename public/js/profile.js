@@ -1,4 +1,5 @@
-const newFormHandler = async (event) => {
+// add book to user Favorites
+const addBookHandler = async (event) => {
   event.preventDefault();
 
   const name = document.querySelector('#project-name').value.trim();
@@ -22,7 +23,8 @@ const newFormHandler = async (event) => {
   }
 };
 
-const delButtonHandler = async (event) => {
+// remove book from user Favorites
+const delBookHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
     const id = event.target.getAttribute('data-id');
 
@@ -38,10 +40,25 @@ const delButtonHandler = async (event) => {
   }
 };
 
+// Note: new-project-form should change to something
+// like new-fav-book in html, profile.handlebars or 
+// This listener triggered when user clicks checkbox
+// next to book. Need to grab the 
+//     title
+//     author  
+// from the selected book to store into Book table for
+// the user.
 document
   .querySelector('.new-project-form')
-  .addEventListener('submit', newFormHandler);
+  .addEventListener('submit', addBookHandler);
 
+  // Note: project-list should change to something
+// like remove-fav-book in html, profile.handlebars
+// Need to grab the
+//     title
+//     author
+// from the de-selected book to remove it from Book
+// table for this user.
 document
   .querySelector('.project-list')
-  .addEventListener('click', delButtonHandler);
+  .addEventListener('click', delBookHandler);

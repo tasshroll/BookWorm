@@ -1,6 +1,30 @@
 
-header, .project:not(:last-child) {
-  border-bottom: 1px solid #c89292;
+body{
+  background-color: rgb(113, 158, 113);
+}
+.ourTitle {
+  font-weight: bold;
+  font-size: 3rem;
+  color:rgb(245, 245, 176);
+  text-align: center;
+  font-family:'Courier New', Courier, monospace;
+}
+.ourTitle a:hover{
+  color: rgb(205, 187, 162);
+}
+.theNav {
+  background-color: rgb(205, 187, 162);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2rem;
+  text-align: left;
+}
+.theNav a{
+  color: rgb(113, 158, 113);
+  font-size:1.5rem;
+  font-weight:bold;
+}
+.theNav :hover{
+  color:rgb(107, 141, 88);
 }
 
 .no-button {
@@ -22,4 +46,23 @@ header, .project:not(:last-child) {
   color: #056605;
   font-weight: bold;
   margin-left: -5px;
+}
+.genreHeading{
+  font-family:'Courier New', Courier, monospace;
+  font-size: 2rem;
+  font-weight: bolder;
+  padding: 1%;
+  color:rgb(184, 239, 154);
+}
+.bookCover{
+  padding: 1.5%;
+  width: 15rem;
+  height: 20rem;
+  border:0.5rem solid;
+  border-color:  rgb(205, 187, 162);
+  border-top-left-radius: 10%;
+  border-top-left-radius: 10%;
+}
+.bookCover:hover{
+  opacity: 50%;
 }

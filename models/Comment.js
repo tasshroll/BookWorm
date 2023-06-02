@@ -37,6 +37,7 @@ Comment.init(
       references: {
         model: 'book',
         key: 'id',
+        onDelete: 'CASCADE', 
       },
     },
   },

@@ -34,6 +34,10 @@ PK = Primary Key, FK = Foreign Key
 
 [Acceptance Criteria](#acceptance-criteria)
 
+# Collaborators
+
+Shannon Hogeboom, Hieu Tran
+
 # Installation & Usage
 
 Run from Heroku. 
@@ -93,7 +97,7 @@ THEN I see navigation links for the homepage, the dashboard, and the option to l
 WHEN I click on the homepage option in the navigation
 THEN I am taken to the homepage and presented with book covers that include the title and author
 WHEN I click on a book title 
-THEN I am presented with the book review, and any comments others have created, the creator’s username, and date created for that post and have the option to leave a comment
+THEN I am presented with the book description, and any comments others have created, the creator’s username, and date created for that post and have the option to leave a comment
 WHEN I enter a comment and click on the submit button while signed in
 THEN the comment is saved and the book is updated to display the comment, the comment creator’s username, and the date created
 WHEN I click on the dashboard option in the navigation

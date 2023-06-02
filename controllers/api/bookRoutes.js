@@ -1,36 +1,56 @@
 const router = require('express').Router();
-const { User, Comment, Book} = require('../../models');
+const { User, Comment, Book, BookUser} = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // Add book title to user book list (favorite)
 // route : POST api/book/
 // in profile.js, addBookHandler
 // ADD WITHAUTH AFTER FRONT END WORKING
-router.post('/', async (req, res) => {
+// router.post('/', withAuth, async (req, res) => {
+//   try {
+//     console.log("req.body is ", req.body);
+//     const newBook = await Book.create({
+//       ...req.body,
+//       user_id: req.session.user_id,
+//      include: [
+//     { model: User, through: BookUser }]
+//     });
+//     console.log(res.newBook);
+
+//     res.status(200).json(newBook);
+//   } catch (err) {
+//     console.log("Error adding book to FAV")
+//     res.status(400).json(err);
+//   }
+// });
+
+
+router.post('/', withAuth, async (req, res) => {
   try {
     console.log("req.body is ", req.body);
     const newBook = await Book.create({
       ...req.body,
-      user_id: req.session.user_id
-    //  include: [
-    // { model: User, through: BookUser }]
+      user_id: req.session.user_id,
+    }, {
+      include: [{ model: User, through: BookUser }]
     });
-    console.log(res.newBook);
+    console.log(newBook);
 
     res.status(200).json(newBook);
   } catch (err) {
-    console.log("Error adding book to FAV")
+    console.log("Error adding book to FAV:", err);
     res.status(400).json(err);
   }
 });
+
+
 
 
 // Create a  NEW COMMENT on a book
 // route : POST api/book/comment/:id
 // in comment.js, newCommentHandler
 router.post('/comment/:id', async (req, res) => {
-      // UNCOMMENT THIS AFTER FRONT END IS READY
-  // const user_id = req.session.user_id;
+  const user_id = req.session.user_id;
   const book_id = req.params.id;
 
   console.log ("book_id is ", book_id);
@@ -39,8 +59,7 @@ router.post('/comment/:id', async (req, res) => {
     console.log(req.body);
     const commentData = await Comment.create({
       ...req.body,
-      // UNCOMMENT THIS AFTER FRONT END IS READY
-      //user_id,
+      user_id,
       book_id
     });
 

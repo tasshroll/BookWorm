@@ -8,6 +8,7 @@ router.post('/', async (req, res) => {
     const userData = await User.create(req.body);
 
     req.session.save(() => {
+      // save the created user_id to the request session
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
@@ -56,6 +57,7 @@ router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
+      console.log("User is logged out")
     });
   } else {
     res.status(404).end();

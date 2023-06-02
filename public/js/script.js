@@ -16,19 +16,27 @@ function getAPI() {
           };
         });
 
-        // Append book covers to the webpage
+        // Create a container for each genre
         const container = document.createElement('div');
-        container.className = 'container is-fluid';
+        container.className = 'container is-fluid genre-container';
+
+        // Create a heading for the genre
+        const heading = document.createElement('h2');
+        heading.textContent = genre.toUpperCase();
+        heading.classList.add ('genreHeading');
+        container.appendChild(heading);
 
         books.forEach(book => {
           const bookCover = document.createElement('img');
+          bookCover.className = 'bookCover'
           bookCover.src = book.cover;
           bookCover.alt = 'Book Cover';
-          bookCover.dataset.bookId = book.id; // Set the book ID as a data attribute
-
+          bookCover.dataset.bookId = book.id;
+  
           container.appendChild(bookCover);
         });
 
+        // Append the container to the webpage
         document.body.appendChild(container);
       })
       .catch(error => {

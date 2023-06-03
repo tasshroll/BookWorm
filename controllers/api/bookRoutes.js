@@ -3,7 +3,7 @@ const { User, Comment, Book, BookUser } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // Add book title to book list as a favorite for this user
-// route : POST api/book/
+// route : POST api/books/
 // in profile.js, addBookHandler
 router.post('/', withAuth, async (req, res) => {
 
@@ -110,7 +110,7 @@ router.get('books/:id/description', async (req, res) => {
 });
 
 // Unfavorite a certain book for a user
-// route : DELETE api/book/:id
+// route : DELETE api/books/:id
 // in profile.js, delBookHandler
 router.delete('/:id', async (req, res) => {
   try {

@@ -111,6 +111,7 @@
     "inflection": "^1.13.4",
     "inflight": "^1.0.6",
     "inherits": "^2.0.4",
+    "install": "^0.13.0",
     "ipaddr.js": "^1.9.1",
     "is-extglob": "^2.1.1",
     "is-fullwidth-code-point": "^3.0.0",

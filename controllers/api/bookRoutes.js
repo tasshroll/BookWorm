@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Comment, Book, BookUser } = require('../../models');
 const withAuth = require('../../utils/auth');
-
+const axios = require('axios');
 // Add book title to book list as a favorite for this user
 // route : POST api/books/
 // in profile.js, addBookHandler
@@ -63,10 +63,13 @@ router.post('/comment/:id', async (req, res) => {
 });
 
 // Fetch a specific book by ID
-router.get('/:id', async (req, res) => {
+//testing the render of the book description
+//adding our 
+router.get('/:id', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
-    const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
+    // const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
+    const apiKey = 'AIzaSyBUSVdXi2rUM5UTsPgQKeDYYyFyk6f8dJg';
     const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
 
     const response = await axios.get(bookApiUrl);
@@ -88,10 +91,11 @@ router.get('/:id', async (req, res) => {
 });
 
 // Fetch the description of a specific book by ID
-router.get('books/:id/description', async (req, res) => {
+router.get('books/:id/description', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
-    const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
+    // const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
+    const apiKey = 'AIzaSyBUSVdXi2rUM5UTsPgQKeDYYyFyk6f8dJg';
     const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
 
     const response = await axios.get(bookApiUrl);

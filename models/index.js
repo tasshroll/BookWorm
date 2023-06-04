@@ -34,14 +34,14 @@ Book.hasMany(Comment, {
 // Book belongToMany Users (through BookUser)
 Book.belongsToMany(User, {
   // third table needed
-    foreignKey: 'user_id',
+    // foreignKey: 'user_id',
     through: BookUser
 });
 
 // User belongToMany Book (through BookUser)
 User.belongsToMany(Book, {
   // third table needed
-    foreignKey: 'book_id',
+    // foreignKey: 'book_id',
     through: BookUser
 });
 

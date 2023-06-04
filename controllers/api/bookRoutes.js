@@ -1,39 +1,31 @@
 const router = require('express').Router();
-const { User, Comment, Book, BookUser} = require('../../models');
+const { User, Comment, Book, BookUser } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// Add book title to user book list (favorite)
-// route : POST api/book/
+// Add book title to book list as a favorite for this user
+// route : POST api/books/
 // in profile.js, addBookHandler
-// ADD WITHAUTH AFTER FRONT END WORKING
-// router.post('/', withAuth, async (req, res) => {
-//   try {
-//     console.log("req.body is ", req.body);
-//     const newBook = await Book.create({
-//       ...req.body,
-//       user_id: req.session.user_id,
-//      include: [
-//     { model: User, through: BookUser }]
-//     });
-//     console.log(res.newBook);
-
-//     res.status(200).json(newBook);
-//   } catch (err) {
-//     console.log("Error adding book to FAV")
-//     res.status(400).json(err);
-//   }
-// });
-
-
 router.post('/', withAuth, async (req, res) => {
+
   try {
     console.log("req.body is ", req.body);
+
+    // get id of current user
+    user_id = req.session.user_id;
+
     const newBook = await Book.create({
       ...req.body,
-      user_id: req.session.user_id,
-    }, {
-      include: [{ model: User, through: BookUser }]
     });
+
+    // Get user data from User table
+    const user = await User.findByPk(user_id);
+
+    console.log("user found is ", user);
+
+    // Connects the user to the selected book in the BookUser model
+    // user.addBook method is provided by sequelize with a Many to many association 
+    await user.addBook(newBook);
+
     console.log(newBook);
 
     res.status(200).json(newBook);
@@ -44,8 +36,6 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 
-
-
 // Create a  NEW COMMENT on a book
 // route : POST api/book/comment/:id
 // in comment.js, newCommentHandler
@@ -53,7 +43,7 @@ router.post('/comment/:id', async (req, res) => {
   const user_id = req.session.user_id;
   const book_id = req.params.id;
 
-  console.log ("book_id is ", book_id);
+  console.log("book_id is ", book_id);
   console.log(`Inside bookRoutes POST to api/book/comment/:id }) where id = `, book_id);
   try {
     console.log(req.body);
@@ -118,33 +108,35 @@ router.get('books/:id/description', async (req, res) => {
     res.status(500).json(err);
   }
 });
-// // Unfavorite a certain book for a user
-// router.delete('/:id/favorite', withAuth, async (req, res) => {
-//   try {
-//     const book = await Book.findByPk(req.params.id);
-//     if (!book) {
-//       res.status(404).json({ message: 'Book not found' });
-//       return;
-//     }
-//     await book.removeUser(req.session.user_id);
-//     res.status(200).json({ message: 'Book unfavorited successfully' });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-// DELETE a user book from their favorites list
-// route : DELETE api/book/:id
+
+// Unfavorite a certain book for a user
+// route : DELETE api/books/:id
 // in profile.js, delBookHandler
 router.delete('/:id', async (req, res) => {
   try {
     console.log("Delete book from user Book list")
-    console.log(req.body);
+    
+    // Delete associated comments first
+    await Comment.destroy({
+      where: {
+        book_id: req.params.id,
+      },
+    });
+
+    // Delete the book
     const bookData = await Book.destroy({
       where: {
-        id: req.params.id
-        // ADD THIS CODE BACK IN
-        //user_id: req.session.user_id,
+        id: req.params.id,
       },
+      include: [
+        {
+          model: User,
+          through: BookUser,
+          where: {
+            id: req.session.user_id,
+          },
+        },
+      ],
     });
 
     if (!bookData) {

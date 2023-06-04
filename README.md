@@ -1,16 +1,18 @@
 # BookWorm
 
-Book site application that allows users to read free library books online. Users can keep track of favorite books and comment on books.
+Bookworm opens the doors to the places where you can find the book you’re looking for. This application allows users to read library books, save thier favorite books, and comment on books.
 
 # Description
 
-This application presents a homepage which includes images of book covers displayed by genres. Users must signup/login to be able to read book descriptions, track favorite, and make and read comments. The app will authenticate user credentials and save their session. The app uses the following packages: express-handlebars, mySQL2, Sequelize, and bcrypt. This app follows MVC methodology to relate the user front end to back end SQL data models. The four tables in the database are Book, User, Comment, and BookUser. 
+This application presents books displayed by genres for users to explore. Users must signup/login to be read book descriptions, track their favorite, and write and read comments. The app will authenticate user credentials and save their session and cookies. The app uses the following packages: express-handlebars as the template engine for the front end, MySQL and the Sequelize ORM for the database, and bcrypt package for passworrds, Node and Express to create a RESTful API. This app follows MVC methodology to relate the user front end to back end data models.
 
 
 [![License](https://img.shields.io/badge/License-n/a-n/a.svg)](n/a)
 
 # Git Hub Repository
-https://github.com/tasshroll/best-blog-site
+
+https://github.com/TheColorHieu/BookWorm
+
 
 # Heroku Deployed App
 
@@ -23,8 +25,11 @@ Visual for associations between 4 tables in the database: Book, Comment, User, B
 
 PK = Primary Key, FK = Foreign Key
 
-<img src="./Assets/book_db.png" alt="Database Tables" width="500">
+<img src="./Assets/book-data-base.png" alt="Book Database Tables" width="500">
 
+Initial User Screen
+
+<img src="./Assets/homepage.png" alt="Home Page Display" width="500">
 
 ## Table of Contents
 
@@ -36,7 +41,7 @@ PK = Primary Key, FK = Foreign Key
 
 # Collaborators
 
-Shannon Hogeboom, Hieu Tran
+Shannon Hogeboom, Hieu Tran, Tifni Shroll
 
 # Installation & Usage
 

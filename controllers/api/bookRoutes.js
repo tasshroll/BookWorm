@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User, Comment, Book, BookUser } = require('../../models');
 const withAuth = require('../../utils/auth');
+const axios = require('axios');
 
 // Add book title to book list as a favorite for this user
 // route : POST api/books/
@@ -63,7 +64,31 @@ router.post('/comment/:id', async (req, res) => {
 });
 
 // Fetch a specific book by ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', withAuth, async (req, res) => {
+    try {
+      const bookId = req.params.id;
+      const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
+      const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
+  
+      const response = await axios.get(bookApiUrl);
+      if (response.status === 200) {
+        const result = response.data;
+        const book = {
+          title: result.volumeInfo.title,
+          author: result.volumeInfo.authors,
+          description: result.volumeInfo.description || 'No description available',
+          cover: result.volumeInfo.imageLinks?.thumbnail || 'No cover available'
+        };
+        res.render('book', book);
+      } else {
+        throw new Error('Failed to fetch book details from Google Books API');
+      }
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+// Fetch the description of a specific book by ID
+router.get('/:id/description', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
     const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
@@ -78,29 +103,7 @@ router.get('/:id', async (req, res) => {
         description: result.volumeInfo.description || 'No description available',
         cover: result.volumeInfo.imageLinks?.thumbnail || 'No cover available'
       };
-      res.status(200).json(book);
-    } else {
-      throw new Error('Failed to fetch book details from Google Books API');
-    }
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Fetch the description of a specific book by ID
-router.get('books/:id/description', async (req, res) => {
-  try {
-    const bookId = req.params.id;
-    const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
-    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
-
-    const response = await axios.get(bookApiUrl);
-    if (response.status === 200) {
-      const result = response.data;
-      const book = {
-        description: result.volumeInfo.description || 'No description available',
-      };
-      res.status(200).json(book);
+      res.render('book', book);
     } else {
       throw new Error('Failed to fetch book details from Google Books API');
     }

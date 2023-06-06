@@ -3,12 +3,16 @@
   <div class="book">
     <h1 class="book-title">{{title}}</h1>
     <h3 class="author">Author: {{author}}</h3>
-    <p>{{{description}}}</p>
-    <img src="{{cover}}" alt="Book Cover">
+    <div class ="bookCont"> <img src="{{cover}}" alt="Book Cover"></div>
+    
+     <p>{{{description}}}</p>
+
 
   </div>
   <!-- ADD Button to add a book to favs -->
-  <button type="click" class="btn btn-sm btn-danger add-book">ADD to Favorites</button>
+  <div class = "btnContainer">
+  <button type="click" class="btn btn-sm add-book">ADD to Favorites</button>
+  </div>
 </div>
 
 <script src="/js/book.js"></script>

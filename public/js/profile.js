@@ -37,8 +37,27 @@ async function deleteBook(bookId) {
   } else {
     alert('Failed to delete book');
   }
-}
+};
+const book = {
+  id: 123,
+  title: 'Example Book',
+  author: 'John Doe',
+  description: 'This is an example book.',
+  cover: 'path/to/cover.jpg'
+};
 
+const bookHTML = bookPartial(book);
+// Note: new-project-form should change to something
+// like new-fav-book in html, profile.handlebars or 
+// This listener triggered when user clicks checkbox
+// next to book. Need to grab the 
+//     title
+//     author  
+// from the selected book to store into Book table for
+// the user.
+document
+  .querySelector('.new-project-form')
+  .addEventListener('submit', addBookHandler);
 
 // Event handler for all the click events
 // in profile.handlebars

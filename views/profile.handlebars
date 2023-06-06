@@ -1,8 +1,76 @@
+<!-- PROFILE Handlebar-->
+<div class="col-auto">
+  <h1>Welcome {{userName}}!</h1>
+</div>
+<div class="flex-column">
+  <!-- List all favorite BOOKS by current user logged in -->
+  {{#if books.length}}
+  <div class="col-md-6 project-list mt-2">
+    <h3>Your Favorite Books:</h3>
+    <div>
+      {{#each books as |book|}}
+      <div class="row mb-2">
+        <div class="col-md-8">
+          <p>
+            <a href="/books/{{book.id}}" class="text-dark ml-2 book-title">
+              <strong>{{book.book_title}}</strong>
+              <span class="small text-dark author">written by {{ format_date book.author_name}}</span>
+            </a>
+          </p>
+        </div>
+        <div class="col-md-4">
+          <!-- DELETE Button to remove a book -->
+          <button type="click" class="btn btn-sm btn-danger deleteBlog" data-id="{{blog.id}}">REMOVE from Favorites</button>
+         
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
+  </div>
+  {{/if}}
+</div>
+
+
+<script src="./js/profile.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="row">
   <div class="col-auto">
     <h2>Welcome, {{name}}!</h2>
   </div>
 </div>
+
+
+
+
 
 <div class="row mt-4">
   <div class="col-md-6">

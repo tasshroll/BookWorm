@@ -1,34 +1,16 @@
-const newCommentHandler = async (event) => {
-    event.preventDefault();
-  
-    const content = document.querySelector('#comment-content').value.trim();
-    const date_created = Date.now();
-  
-    if (content) {
-  
-      // POST a new COMMENT
-  
-      const id = window.location.pathname.split("/").pop();
-      const response = await fetch(`/api/book/comment/${id}`, {
-        method: 'POST',
-        body: JSON.stringify({ comment, date_created }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (response.ok) {
-        // list all the comments for the book
-        location.reload();
-        console.log("POSTING NEW COMMENT SUCCESSFULL!");
-      } else {
-        console.log(response.status);
-        alert('Failed to add comment');
-      }
-    }
-  };
-  
-  // Add .comment-form into the HTML
-  document
-    .querySelector('.comment-form')
-    .addEventListener('submit', newCommentHandler);
+const bookmarkBtn = document.querySelector('.bookmark-btn');
+bookmarkBtn.addEventListener('click', bookmarkBook);
+
+// Function to handle bookmarking the book
+async function bookmarkBook() {
+  const bookId = document.querySelector('.book').getAttribute('data-bookid');
+
+  try {
+    const response = await axios.post(`/api/books/${bookId}`, {});
+    console.log('Book bookmarked:', response.data);
+    alert('Book bookmarked successfully!');
+  } catch (error) {
+    console.error('Error bookmarking book:', error);
+    alert('Failed to bookmark the book. Please try again.');
+  }
+}

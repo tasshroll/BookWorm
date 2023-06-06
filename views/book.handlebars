@@ -1,6 +1,9 @@
-<div class="book">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+<div class="book" ata-bookid="{{book.id}}">
   <h1>{{title}}</h1>
   <h3>Author: {{author}}</h3>
-  <p>{{description}}</p>
+  <p>{{{description}}}</p>
   <img src="{{cover}}" alt="Book Cover">
 </div>
+<a class="button bookmark-btn" href="/profile/{{book.id}}">Bookmark</a>

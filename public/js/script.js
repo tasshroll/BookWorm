@@ -1,5 +1,6 @@
+
 function getAPI() {
-  const apiKey = process.env.API_KEY2;
+  const apiKey = 'AIzaSyBUSVdXi2rUM5UTsPgQKeDYYyFyk6f8dJg';
 
   const genres = ['classics', 'science fiction', 'popular fiction', 'biography'];
   const bookPromises = [];

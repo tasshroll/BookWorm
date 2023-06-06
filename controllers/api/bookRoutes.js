@@ -69,6 +69,7 @@ router.post('/:id', withAuth, async (req, res) => {
     res.status(500).json({ message: 'Failed to bookmark the book' });
   }
 });
+
 // Fetch a specific book by ID
 router.get('/:id', withAuth, async (req, res) => {
     try {

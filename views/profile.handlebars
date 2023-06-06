@@ -1,8 +1,9 @@
 <!-- PROFILE Handlebar-->
 <div class="col-auto">
-  <h1>Welcome {{userName}}!</h1>
+  <h1>Welcome {{name}}!</h1>
+
 </div>
-<div class="flex-column">
+<div class="flex-column remove-favorites">
   <!-- List all favorite BOOKS by current user logged in -->
   {{#if books.length}}
   <div class="col-md-6 project-list mt-2">
@@ -14,14 +15,15 @@
           <p>
             <a href="/books/{{book.id}}" class="text-dark ml-2 book-title">
               <strong>{{book.book_title}}</strong>
-              <span class="small text-dark author">written by { book.author_name}}</span>
+              <span class="small text-dark author">written by {{ book.author_name}}</span>
             </a>
           </p>
         </div>
         <div class="col-md-4">
           <!-- DELETE Button to remove a book -->
-          <button type="click" class="btn btn-sm btn-danger deleteBlog" data-id="{{blog.id}}">REMOVE from Favorites</button>
-         
+          <button type="click" class="btn btn-sm btn-danger deleteBook" data-id="{{book.id}}">REMOVE from Favorites</button>
+          <!-- Text Box to add a comment -->
+
         </div>
       </div>
       {{/each}}
@@ -30,56 +32,6 @@
   </div>
   {{/if}}
 </div>
-
-
-<script src="./js/profile.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row">
-  <div class="col-auto">
-    <h2>Welcome, {{name}}!</h2>
-  </div>
-</div>
-
-
-
-
-
-<div class="row mt-4">
-  <div class="col-md-6">
-    {{!-- //adding a font so that the user can see their favorite books  --}}
-    <h3>My favorite books:</h3>
-    <div class="book" ata-bookid="{{book.id}}">
-      <img src="{{cover}}" alt="Book Cover"> 
-      <h1>{{title}}</h1>
-    </div>
 
 <script src="./js/profile.js"></script>
 

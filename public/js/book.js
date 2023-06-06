@@ -26,6 +26,7 @@ async function addBook() {
   };
   
   
+  
   // Event handler for all the click events
   // in book.handlebars
   function handleButtonClick(event) {

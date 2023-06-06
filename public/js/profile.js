@@ -39,7 +39,15 @@ const delBookHandler = async (event) => {
     }
   }
 };
+const book = {
+  id: 123,
+  title: 'Example Book',
+  author: 'John Doe',
+  description: 'This is an example book.',
+  cover: 'path/to/cover.jpg'
+};
 
+const bookHTML = bookPartial(book);
 // Note: new-project-form should change to something
 // like new-fav-book in html, profile.handlebars or 
 // This listener triggered when user clicks checkbox

@@ -73,7 +73,7 @@ router.post('/:id', withAuth, async (req, res) => {
 router.get('/:id', withAuth, async (req, res) => {
     try {
       const bookId = req.params.id;
-      const apiKey = process.env.API_KEY;
+      const apiKey = process.env.API_KEY2;
       const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
   
       const response = await axios.get(bookApiUrl);
@@ -98,7 +98,7 @@ router.get('/:id', withAuth, async (req, res) => {
 router.get('/:id/description', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
-    const apiKey = 'AIzaSyBK-aCp0XCvqFwZRs5alePb5udp3HQ1RE4';
+    const apiKey = process.env.API_KEY2;
     const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
 
     const response = await axios.get(bookApiUrl);

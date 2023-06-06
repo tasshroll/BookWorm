@@ -13,6 +13,7 @@ async function deleteBook(bookId) {
 };
 
 
+
 // Event handler for profile.handlebars
 function handleButtonClick(event) {
   console.log("button clicked");

@@ -185,7 +185,7 @@
     "semver": "^7.5.1",
     "send": "^0.18.0",
     "seq-queue": "^0.0.5",
-    "sequelize": "^6.31.1",
+    "sequelize": "^6.32.0",
     "sequelize-pool": "^7.1.0",
     "serve-static": "^1.15.0",
     "set-blocking": "^2.0.0",

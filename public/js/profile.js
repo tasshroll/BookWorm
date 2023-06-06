@@ -1,42 +1,41 @@
-// add book to user Favorites
-const addBookHandler = async (event) => {
-  event.preventDefault();
+async function addBook() {
+  const book_title = document.querySelector('.book-title').textContent.trim();
+  const author_name = document.querySelector('.author').textContent.trim();
+  console.log("Title is ", book_title);
+  console.log("Author is", author_name);
 
-  const name = document.querySelector('#project-name').value.trim();
-  const needed_funding = document.querySelector('#project-funding').value.trim();
-  const description = document.querySelector('#project-desc').value.trim();
-
-  if (name && needed_funding && description) {
-    const response = await fetch(`/api/projects`, {
+  // Add book to user favorites
+  if (book_title && author_name) {
+    console.log("Adding book to favorites!");
+    const response = await fetch(`/api/books`, {
       method: 'POST',
-      body: JSON.stringify({ name, needed_funding, description }),
+      body: JSON.stringify({ book_title, author_name }),
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
     if (response.ok) {
-      document.location.replace('/profile');
+      // list all the users favorite books including this new one at the bottom
+      document.location.replace('/');
     } else {
-      alert('Failed to create project');
+      console.log(response.status);
+      alert('Failed to add favorite book');
     }
   }
 };
 
-// remove book from user Favorites
-const delBookHandler = async (event) => {
-  if (event.target.hasAttribute('data-id')) {
-    const id = event.target.getAttribute('data-id');
 
-    const response = await fetch(`/api/projects/${id}`, {
-      method: 'DELETE',
-    });
+// Delete a book given its ID
+async function deleteBook(bookId) {
+  const response = await fetch(`/api/books/${bookId}`, {
+    method: 'DELETE',
+  });
 
-    if (response.ok) {
-      document.location.replace('/profile');
-    } else {
-      alert('Failed to delete project');
-    }
+  if (response.ok) {
+    document.location.replace('/profile');
+  } else {
+    alert('Failed to delete book');
   }
 };
 const book = {
@@ -60,13 +59,23 @@ document
   .querySelector('.new-project-form')
   .addEventListener('submit', addBookHandler);
 
-  // Note: project-list should change to something
-// like remove-fav-book in html, profile.handlebars
-// Need to grab the
-//     title
-//     author
-// from the de-selected book to remove it from Book
-// table for this user.
-document
-  .querySelector('.project-list')
-  .addEventListener('click', delBookHandler);
+// Event handler for all the click events
+// in profile.handlebars
+function handleButtonClick(event) {
+  console.log("button clicked");
+  // call deleteBook if the clicked element has the class 'deleteBook'
+  if (event.target.classList.contains('deleteBook')) {
+    const bookId = event.target.getAttribute('data-id');
+    deleteBook(bookId);
+  }
+
+  // call addBook if the clicked element has the class 'update-blog'
+  if (event.target.classList.contains('add-book')) {
+    console.log("Calling addBook");
+    addBook();
+  }
+}
+
+// Add event listener to a parent element that contains the edit & delete buttons
+document.querySelector('.book-description').addEventListener('click', handleButtonClick);
+

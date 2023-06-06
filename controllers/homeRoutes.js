@@ -4,8 +4,9 @@ const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
   try {
-    // Get all projects and JOIN with user data
-    const projectsData = await Book.findAll({
+    // Get all books and JOIN with user data
+    console.log("Getting All books");
+    const bookData = await Book.findAll({
       include: [
         {
           model: User,
@@ -15,15 +16,16 @@ router.get('/', async (req, res) => {
     });
 
     // Serialize data so the template can read it
-    const projects = projectsData.map((project) => project.get({ plain: true }));
-    console.log(projects);
+    const books = bookData.map((book) => book.get({ plain: true })); // Fixed: Changed "project" to "book"
+    console.log(books);
     
     // Pass serialized data and session flag into template
     res.render('homepage', { 
-      projects, 
+      books, 
       logged_in: req.session.logged_in 
     });
   } catch (err) {
+    console.log("Error getting all books");
     res.status(500).json(err);
   }
 });
@@ -63,6 +65,7 @@ router.get('/profile', withAuth, async (req, res) => {
 
     res.render('profile', {
       ...user,
+
       logged_in: true
     });
   } catch (err) {

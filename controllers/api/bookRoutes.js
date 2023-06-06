@@ -40,29 +40,35 @@ router.post('/', withAuth, async (req, res) => {
 // Create a  NEW COMMENT on a book
 // route : POST api/book/comment/:id
 // in comment.js, newCommentHandler
-router.post('/comment/:id', async (req, res) => {
-  const user_id = req.session.user_id;
-  const book_id = req.params.id;
-
-  console.log("book_id is ", book_id);
-  console.log(`Inside bookRoutes POST to api/book/comment/:id }) where id = `, book_id);
+router.post('/:id', withAuth, async (req, res) => {
   try {
-    console.log(req.body);
-    const commentData = await Comment.create({
-      ...req.body,
-      user_id,
-      book_id
+    const bookId = req.params.id;
+    const userId = req.session.user_id;
+
+    // Check if the book already exists in the user's list
+    const existingBook = await BookUser.findOne({
+      where: {
+        book_id: bookId,
+        user_id: userId,
+      },
     });
 
-    console.log(commentData);
-    res.status(200).json(commentData);
+    if (existingBook) {
+      return res.status(400).json({ message: 'Book already bookmarked' });
+    }
 
-  } catch (err) {
-    console.log("Error posting comment");
-    res.status(500).json(err);
+    // Create a new entry in the BookUser join table
+    await BookUser.create({
+      book_id: bookId,
+      user_id: userId,
+    });
+
+    res.status(200).json({ message: 'Book bookmarked successfully' });
+  } catch (error) {
+    console.error('Error bookmarking book:', error);
+    res.status(500).json({ message: 'Failed to bookmark the book' });
   }
 });
-
 // Fetch a specific book by ID
 router.get('/:id', withAuth, async (req, res) => {
     try {

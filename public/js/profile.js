@@ -1,30 +1,3 @@
-async function addBook() {
-  const book_title = document.querySelector('.book-title').textContent.trim();
-  const author_name = document.querySelector('.author').textContent.trim();
-  console.log("Title is ", book_title);
-  console.log("Author is", author_name);
-
-  // Add book to user favorites
-  if (book_title && author_name) {
-    console.log("Adding book to favorites!");
-    const response = await fetch(`/api/books`, {
-      method: 'POST',
-      body: JSON.stringify({ book_title, author_name }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      // list all the users favorite books including this new one at the bottom
-      document.location.replace('/');
-    } else {
-      console.log(response.status);
-      alert('Failed to add favorite book');
-    }
-  }
-};
-
 
 // Delete a book given its ID
 async function deleteBook(bookId) {
@@ -38,44 +11,25 @@ async function deleteBook(bookId) {
     alert('Failed to delete book');
   }
 };
-const book = {
-  id: 123,
-  title: 'Example Book',
-  author: 'John Doe',
-  description: 'This is an example book.',
-  cover: 'path/to/cover.jpg'
-};
 
-const bookHTML = bookPartial(book);
-// Note: new-project-form should change to something
-// like new-fav-book in html, profile.handlebars or 
-// This listener triggered when user clicks checkbox
-// next to book. Need to grab the 
-//     title
-//     author  
-// from the selected book to store into Book table for
-// the user.
-document
-  .querySelector('.new-project-form')
-  .addEventListener('submit', addBookHandler);
 
-// Event handler for all the click events
-// in profile.handlebars
+// Event handler for profile.handlebars
 function handleButtonClick(event) {
   console.log("button clicked");
-  // call deleteBook if the clicked element has the class 'deleteBook'
-  if (event.target.classList.contains('deleteBook')) {
-    const bookId = event.target.getAttribute('data-id');
-    deleteBook(bookId);
-  }
 
-  // call addBook if the clicked element has the class 'update-blog'
-  if (event.target.classList.contains('add-book')) {
-    console.log("Calling addBook");
-    addBook();
+  const targetElement = event.target;
+
+  // Find the closest parent element with the deleteBook class
+  const deleteButton = targetElement.closest('.deleteBook');
+
+  // Call deleteBook if the clicked element or its parent has the class 'deleteBook'
+  if (deleteButton) {
+    const bookId = deleteButton.getAttribute('data-id');
+    deleteBook(bookId);
   }
 }
 
-// Add event listener to a parent element that contains the edit & delete buttons
-document.querySelector('.book-description').addEventListener('click', handleButtonClick);
+// Add event listener on profile.handlebar
+// to a parent element that contains the delete a favorite button
+document.querySelector('.remove-favorites').addEventListener('click', handleButtonClick);
 

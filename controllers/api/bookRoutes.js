@@ -5,7 +5,7 @@ const axios = require('axios');
 
 // Add book title to book list as a favorite for this user
 // route : POST api/books/
-// in profile.js, addBookHandler
+// in profile.js, addBook
 router.post('/', withAuth, async (req, res) => {
 
   try {
@@ -93,6 +93,7 @@ router.get('/:id', withAuth, async (req, res) => {
       res.status(500).json({ error: err.message });
     }
   });
+  
 // Fetch the description of a specific book by ID
 router.get('/:id/description', withAuth, async (req, res) => {
   try {
@@ -120,7 +121,7 @@ router.get('/:id/description', withAuth, async (req, res) => {
 
 // Unfavorite a certain book for a user
 // route : DELETE api/books/:id
-// in profile.js, delBookHandler
+// in profile.js, deleteBook
 router.delete('/:id', async (req, res) => {
   try {
     console.log("Delete book from user Book list")

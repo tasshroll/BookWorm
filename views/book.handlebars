@@ -1,9 +1,13 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+<div class="book-description">
 
-<div class="book" ata-bookid="{{book.id}}">
-  <h1>{{title}}</h1>
-  <h3>Author: {{author}}</h3>
-  <p>{{{description}}}</p>
-  <img src="{{cover}}" alt="Book Cover">
+  <div class="book">
+    <h1 class="book-title">{{title}}</h1>
+    <h3 class="author">Author: {{author}}</h3>
+    <p>{{{description}}}</p>
+    <img src="{{cover}}" alt="Book Cover">
+
+  </div>
+  <!-- ADD Button to add a book to favs -->
+  <button type="click" class="btn btn-sm btn-danger add-book">ADD to Favorites</button>
 </div>
-<a class="button bookmark-btn" href="/profile/{{book.id}}">Bookmark</a>
+<script src="/js/profile.js"></script>

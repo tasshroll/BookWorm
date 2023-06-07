@@ -58,6 +58,7 @@ body{
   color: rgb(113, 158, 113);
   font-size:1.5rem;
   font-weight:bold;
+  border: none;
 }
 .theNav :hover{
   color:rgb(107, 141, 88);

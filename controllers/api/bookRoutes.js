@@ -40,10 +40,11 @@ router.post('/', withAuth, async (req, res) => {
 // Create a  NEW COMMENT on a book
 // route : POST api/book/comment/:id
 // in comment.js, newCommentHandler
-router.post('/:id', withAuth, async (req, res) => {
+router.post('/comment/:id', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
     const userId = req.session.user_id;
+    console.log(req.body);
 
     // Check if the book already exists in the user's list
     const existingBook = await BookUser.findOne({
@@ -54,52 +55,129 @@ router.post('/:id', withAuth, async (req, res) => {
     });
 
     if (existingBook) {
-      return res.status(400).json({ message: 'Book already bookmarked' });
+      console.log("Creating COMMENT");
+
+      // Add the comment for this book
+      await Comment.create({
+        ...req.body,
+        user_id: userId,
+        book_id: bookId
+      });
+
+      res.status(200).json({ message: 'Comment added successfully' });
     }
-
-    // Create a new entry in the BookUser join table
-    await BookUser.create({
-      book_id: bookId,
-      user_id: userId,
-    });
-
-    res.status(200).json({ message: 'Book bookmarked successfully' });
   } catch (error) {
     console.error('Error bookmarking book:', error);
     res.status(500).json({ message: 'Failed to bookmark the book' });
   }
 });
 
+
+// Get COMMENTs on a book by ID
+// route : GET api/book/comment/:id
+// in book.js
+router.get('/comment/:id', withAuth, async (req, res) => {
+  try {
+    console.log("Getting Comments for Book");
+    const bookId = req.params.id;
+    const userId = req.session.user_id;
+
+    // Get comments for the book if they exist
+    const existingComment = await Comment.findAll({
+      where: {
+        book_id: bookId,
+        //user_id: userId,
+      },
+    });
+    console.log("existingComment is", existingComment);
+
+    if (existingComment) {
+      // Serialize data so the template can read it
+      const comments = existingComment.map((el) => el.get({ plain: true }));
+      console.log(comments);
+
+      // Pass data amd session flag to book template
+      res.render('book', {
+        comments,
+        logged_in: req.session.logged_in
+      });
+    }
+  } catch (err) {
+    console.log("Error getting comments for book");
+    res.status(500).json(err);
+  }
+});
+
+// Get COMMENTs on a book by TITLE regardless of user
+// route : GET api/book/comment/:id
+// in book.js
+router.get('/comment-title/:title', async (req, res) => {
+  try {
+    const title = req.params.title;
+    const userId = req.session.user_id;
+    console.log("Title to search is ", title);
+
+    // Find the comments in the Comment model but includde the Book model
+    // to search on the passed in book_title from URL
+    const existingComments = await Comment.findAll({
+      include: [
+        {
+          model: Book,
+          where: {
+            book_title: title,
+          }
+        }
+      ]
+    });
+
+
+    // Serialize data so the template can read it
+    const comments = existingComments.map((el) => el.get({ plain: true }));
+    console.log("Comments are", comments);
+
+    // Pass data and session flag to book template
+    res.render('book', {
+      comments,
+      logged_in: req.session.logged_in
+    });
+  } catch (err) {
+    console.log("Error getting comments for book");
+    res.status(500).json(err);
+  }
+});
+
+
+
 // Fetch a specific book by ID
 router.get('/:id', withAuth, async (req, res) => {
-    try {
-      const bookId = req.params.id;
-      const apiKey = process.env.API_KEY2;
-      const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
-  
-      const response = await axios.get(bookApiUrl);
-      if (response.status === 200) {
-        const result = response.data;
-        const book = {
-          title: result.volumeInfo.title,
-          author: result.volumeInfo.authors,
-          description: result.volumeInfo.description || 'No description available',
-          cover: result.volumeInfo.imageLinks?.thumbnail || 'No cover available'
-        };
-        res.render('book', book);
-      } else {
-        throw new Error('Failed to fetch book details from Google Books API');
-      }
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+  try {
+    const bookId = req.params.id;
+    const apiKey = process.env.API_KEY;
+    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
+
+    const response = await axios.get(bookApiUrl);
+    if (response.status === 200) {
+      const result = response.data;
+      const book = {
+        title: result.volumeInfo.title,
+        author: result.volumeInfo.authors,
+        description: result.volumeInfo.description || 'No description available',
+        cover: result.volumeInfo.imageLinks?.thumbnail || 'No cover available'
+      };
+      res.render('book', book);
+    } else {
+      throw new Error('Failed to fetch book details from Google Books API');
     }
-  });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Fetch the description of a specific book by ID
 router.get('/:id/description', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
-    const apiKey = process.env.API_KEY2;
+    const apiKey = process.env.API_KEY;
     const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
 
     const response = await axios.get(bookApiUrl);
@@ -126,7 +204,7 @@ router.get('/:id/description', withAuth, async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     console.log("Delete book from user Book list")
-    
+
     // Delete associated comments first
     await Comment.destroy({
       where: {

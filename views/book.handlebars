@@ -3,16 +3,36 @@
   <div class="book">
     <h1 class="book-title">{{title}}</h1>
     <h3 class="author">Author: {{author}}</h3>
-    <div class ="bookCont"> <img src="{{cover}}" alt="Book Cover"></div>
-    
-     <p>{{{description}}}</p>
+    <div class="bookCont"> <img src="{{cover}}" alt="Book Cover"></div>
+
+    <p>{{{description}}}</p>
 
 
   </div>
   <!-- ADD Button to add a book to favs -->
-  <div class = "btnContainer">
-  <button type="click" class="btn btn-sm add-book">ADD to Favorites</button>
+  <div class="btnContainer">
+    <button type="click" class="btn btn-sm add-book">ADD to Favorites</button>
   </div>
+</div>
+
+<h2> Add to Favorites to read and leave comments</h2>
+<script>
+  // Log the value of comments
+  console.log("Comments data:", {{comments}});
+</script>
+<div class="comments">
+  <!-- If comments exist for the book, display them -->
+  {{#if comments.length }}
+    {{#each ../comments}}
+      <div>
+        {{!-- <p>{{this.content}} Comment on {{format_date date_created}}</p> --}}
+        <p>{{this.comment}} Comment on {{format_date date_created}}</p> --}}
+
+      </div>
+    {{/each}}
+  {{else}}
+    <p>No comments yet</p>
+  {{/if}}
 </div>
 
 <script src="/js/book.js"></script>

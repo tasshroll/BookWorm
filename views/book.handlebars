@@ -1,18 +1,42 @@
+<!-- Display single book information & comments -->
+
+<!-- script.js is calling bookRoutes route:
+        router.get('/:id', withAuth, async (req, res) => {
+        where id is the GOOGLE Book ID. The API gives book description then renders
+        book.handlebars and passes {{title}} {{author}} and {{{description}}}. If
+        {{ comments }} exist then they are passed too.
+ -->
+
 <div class="book-description">
-
   <div class="book">
-    <h1 class="book-title">{{title}}</h1>
-    <h3 class="author">Author: {{author}}</h3>
-    <div class ="bookCont"> <img src="{{cover}}" alt="Book Cover"></div>
-    
-     <p>{{{description}}}</p>
+    <h1 class="book-title">{{book.title}}</h1>
+    <h3 class="author">Author: {{book.author}}</h3>
+    <div class="bookCont">
+      <img src="{{book.cover}}" alt="Book Cover">
+    </div>
+    <p>{{book.description}}</p>
+  </div>
+
+  <!-- ADD Button for user to add this book to their favs -->
+  <div class="btnContainer">
+    <button type="click" class="btn btn-sm add-book">ADD to Favorites</button>
+  </div>
+</div>
+
+<h2 class="text-center"> 'Add to Favorites' to write your comments</h2>
 
 
+<div class="comments">
+  <!-- Display comments for this book if they exist -->
+  {{#if comments.length }}
+  {{#each comments}}
+  <div>
+    <p>{{comment}} Comment on {{format_date date_created}}</p>
   </div>
-  <!-- ADD Button to add a book to favs -->
-  <div class = "btnContainer">
-  <button type="click" class="btn btn-sm add-book">ADD to Favorites</button>
-  </div>
+  {{/each}}
+  {{else}}
+  <p class="text-center">No comments yet</p>
+  {{/if}}
 </div>
 
 <script src="/js/book.js"></script>

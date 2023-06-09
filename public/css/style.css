@@ -115,10 +115,16 @@ p {
 #signUpBtn:hover {
   opacity: 50%;
 }
-.favBook,
-#favAuthor {
-  color: rgba(253, 250, 245, 0.859);
-  font-family: "Courier New", Courier, monospace;
+.favBook, #favAuthor{
+  color:rgba(17, 16, 15, 0.859);
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bolder;
+  font-size: 2rem;
+  text-align: right;
+}
+#favAuthor{
+  color:rgba(245, 243, 241, 0.959);
+  font-family: 'Courier New', Courier, monospace;
   font-weight: bolder;
   font-size: 2rem;
   text-align: right;

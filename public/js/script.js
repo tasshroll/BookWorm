@@ -1,6 +1,6 @@
 
 function getAPI() {
-  const apiKey = 'AIzaSyBUSVdXi2rUM5UTsPgQKeDYYyFyk6f8dJg';
+  const apiKey = 'AIzaSyD2spQD7RpmuMQYgW3iqPZ-avwRM05t9cs';
 
   const genres = ['classics', 'science fiction', 'popular fiction', 'biography'];
   const bookPromises = [];
@@ -54,6 +54,7 @@ function getAPI() {
       const bookId = clickedElement.dataset.bookId;
       if (bookId) {
         // Redirect to the book details page
+        console.log("re-directing to specific book");
         window.location.href = `/books/${bookId}`;
       }
     }

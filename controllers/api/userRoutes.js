@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
 // api/users/login
 router.post('/login', async (req, res) => {
   try {
-    console.log("in Login")
     const userData = await User.findOne({ where: { email: req.body.email } });
 
     if (!userData) {
@@ -57,7 +56,6 @@ router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
-      console.log("User is logged out")
     });
   } else {
     res.status(404).end();

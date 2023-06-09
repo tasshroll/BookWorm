@@ -1,5 +1,6 @@
 
-// Delete a book given its ID
+// --------------------- Remove Book----------------------
+// Remove a book from user Favorite given its ID
 async function deleteBook(bookId) {
   const response = await fetch(`/api/books/${bookId}`, {
     method: 'DELETE',
@@ -12,11 +13,10 @@ async function deleteBook(bookId) {
   }
 };
 
+// ---------------------Handle Remove----------------------
 
-
-// Event handler for profile.handlebars
-function handleButtonClick(event) {
-  console.log("button clicked");
+// Event handler for profile.handlebars, "Remove From Favorites"
+function handleRemoveClick(event) {
 
   const targetElement = event.target;
 
@@ -30,7 +30,53 @@ function handleButtonClick(event) {
   }
 }
 
-// Add event listener on profile.handlebar
-// to a parent element that contains the delete a favorite button
-document.querySelector('.remove-favorites').addEventListener('click', handleButtonClick);
+// ---------------------Handle Comment Input----------------------
+const handleCommentClick = async (event, bookId, commentBox) => {
+  event.preventDefault();
+  const date_created = Date.now();
+  
+  const comment = commentBox.value.trim();
+
+  if (comment) {
+    // POST the new COMMENT
+    const response = await fetch(`/api/books/comment/${bookId}`, {
+      method: 'POST',
+      body: JSON.stringify({ comment, date_created }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    if (response.ok) {
+      // Show the comment-added message
+      // const commentMessage = document.querySelector('#comment-message');
+      const commentMessage = commentBox.closest('.create-comment').querySelector('.comment-message');
+      commentMessage.textContent = 'Your comment was added!';
+      commentMessage.style.color = 'green';
+
+    } else {
+      alert('Failed to add comment');
+    }
+  }
+};
+
+
+// ---------------------Event Listeners----------------------
+// Event listener for REMOVE from Favorites button
+document
+  .querySelector('.remove-favorites')
+  .addEventListener('click', handleRemoveClick);
+
+
+// Event listener for comment SUBMIT button
+document.addEventListener('click', (event) => {
+  const submitCommentButton = event.target.closest('.submit-comment');
+  if (submitCommentButton) {
+    const commentBox = submitCommentButton.closest('.create-comment').querySelector('.comment-box');
+    const bookId = commentBox.getAttribute('data-id');
+    handleCommentClick(event, bookId, commentBox);
+  }
+});
+
+
 

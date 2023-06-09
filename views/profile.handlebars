@@ -1,36 +1,46 @@
-
 <div class="col-auto">
   <h1>Welcome {{name}}!</h1>
-
 </div>
-<div class="flex-column remove-favorites">
+<div class="flex-row remove-favorites">
   <!-- List all favorite BOOKS by current user logged in -->
   {{#if books.length}}
-  <div class="col-md-6 mt-2 welcomeUser" >
-    <h3>Your Favorite Books:</h3>
+  <div class="col-md-12 mt-2 welcomeUser">
+    <h3 text-center>Your Favorite Books:</h3>
     <div>
       {{#each books as |book|}}
-      <div class="row mb-2">
-        <div class="col-md-8">
-          <p>
-            <a href="/books/{{book.id}}" class="text-dark ml-2 book-title">
-              <strong class="favBook">{{book.book_title}}</strong>
-              <span class="small author" id="favAuthor"> by {{ book.author_name}}</span>
-            </a>
-          </p>
-        </div>
-        <div class="col-md-4">
-          <!-- DELETE Button to remove a book -->
-          <button type="click" class="btn btn-sm deleteBook" data-id="{{book.id}}">REMOVE from Favorites</button>
+      {{!-- <div class="mb-5 text-center"> --}}
+      <div class="mb-5 text-center" data-book-id="{{book.id}}">
 
+        <div class="col-md-12">
+            <div>
+              <p>-------------------------------------</p>
+              <!-- Text Box for user to create a new comment -->
+              <div class="flex-grow-1 create-comment">
+                <textarea class="form-control comment-box" id="comment-content" name="comment-content" data-id="{{book.id}}" rows="3" placeholder="Add a comment"
+                  style="width: 800px; height: 50px;"></textarea>\
+                <button type="click" class="btn btn-primary submit-comment"
+                  data-id="{{book.id}}">Submit</button>
+                  <div class="comment-message" data-id="{{book.id}}"></div> 
+                  {{!-- <div id="comment-message"></div> --}}
+              </div>
+              <!-- Book Title and Author -->
+              <div>
+                <a href="/books/{{book.id}}" class="text-dark book-title">
+                  <strong class="favBook">{{book.book_title}}</strong>
+                  <span class="small author" id="favAuthor">  by {{ book.author_name}}</span>
+                </a>
+              </div>
+              <!-- DELETE Button to remove a book -->
+              <div class="ml-2 mb-5 text-center">
+                <button type="click" class="btn btn-sm deleteBook" data-id="{{book.id}}">REMOVE from Favorites</button>
+              </div>
+            </div>
+          </div>
         </div>
+        {{/each}}
       </div>
-      {{/each}}
-
     </div>
+    {{/if}}
   </div>
-  {{/if}}
-</div>
 
-<script src="./js/profile.js"></script>
-
+  <script src="./js/profile.js"></script>

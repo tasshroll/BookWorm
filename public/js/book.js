@@ -2,8 +2,6 @@
 async function addBook() {
   const book_title = document.querySelector('.book-title').textContent.trim();
   const author_name = document.querySelector('.author').textContent.trim().replace('Author: ', '');
-  console.log("Title is ", book_title);
-  console.log("Author is", author_name);
 
   // Add book to user favorites
   if (book_title && author_name) {
@@ -17,12 +15,10 @@ async function addBook() {
     });
 
     if (response.ok) {
-      console.log("successful add to DB");
       // redirect to users profile to display all favs
       document.location.replace('/profile');
 
     } else {
-      console.log(response.status);
       alert('Failed to add book');
     }
   }

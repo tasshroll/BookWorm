@@ -38,7 +38,6 @@ router.post('/comment/:id', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
     const userId = req.session.user_id;
-    console.log(req.body);
 
     // Check if the book already exists in the user's list
     const existingBook = await BookUser.findOne({
@@ -49,7 +48,6 @@ router.post('/comment/:id', withAuth, async (req, res) => {
     });
 
     if (existingBook) {
-      console.log("Creating COMMENT");
 
       // Add the comment for this book
       await Comment.create({
@@ -72,7 +70,6 @@ router.post('/comment/:id', withAuth, async (req, res) => {
 // in book.js
 router.get('/comment/:id', withAuth, async (req, res) => {
   try {
-    console.log("Getting Comments for Book");
     const bookId = req.params.id;
     const userId = req.session.user_id;
 
@@ -80,15 +77,12 @@ router.get('/comment/:id', withAuth, async (req, res) => {
     const existingComment = await Comment.findAll({
       where: {
         book_id: bookId,
-        //user_id: userId,
       },
     });
-    console.log("existingComment is", existingComment);
 
     if (existingComment) {
       // Serialize data so the template can read it
       const comments = existingComment.map((el) => el.get({ plain: true }));
-      console.log(comments);
 
       // Pass data amd session flag to book template
       res.render('book', {
@@ -109,7 +103,6 @@ router.get('/comment-title/:title', async (req, res) => {
   try {
     const title = req.params.title;
     const userId = req.session.user_id;
-    console.log("Title to search is ", title);
 
     // Find the comments in the Comment model but includde the Book model
     // to search on the passed in book_title from URL
@@ -126,7 +119,6 @@ router.get('/comment-title/:title', async (req, res) => {
 
     // Serialize data so the template can read it
     const comments = existingComments.map((el) => el.get({ plain: true }));
-    console.log("Comments Objs is", comments);
 
     // Pass data and session flag to book template
     res.render('book', {
@@ -135,7 +127,6 @@ router.get('/comment-title/:title', async (req, res) => {
     });
 
   } catch (err) {
-    console.log("Error getting comments for book", err);
     res.status(500).json(err);
   }
 });
@@ -146,7 +137,6 @@ router.get('/comment-title/:title', async (req, res) => {
 router.get('/:id', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
-    console.log("Book ID IS ", bookId);
 
     const apiKey = process.env.API_KEY;
     const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
@@ -160,7 +150,6 @@ router.get('/:id', withAuth, async (req, res) => {
         description: result.volumeInfo.description || 'No description available',
         cover: result.volumeInfo.imageLinks?.thumbnail || 'No cover available'
       };
-      console.log ("Cover is ", book.cover);
       // Check for comments on this book in DB
       // if book_title exists in DB for given title
       const dbBook = await Book.findOne({
@@ -181,7 +170,6 @@ router.get('/:id', withAuth, async (req, res) => {
         if (bookComments) {
           // Serialize data so the template can read it
           const com = bookComments.map((el) => el.get({ plain: true }));
-          console.log("Comments Objs is", bookComments);
           // make available outside this scope
           comments = com;
         }
@@ -230,7 +218,6 @@ router.get('/:id/description', withAuth, async (req, res) => {
 // in profile.js, deleteBook
 router.delete('/:id', async (req, res) => {
   try {
-    console.log("Delete book from user Book list")
 
     // Delete associated comments first
     await Comment.destroy({

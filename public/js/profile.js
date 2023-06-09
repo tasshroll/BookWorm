@@ -17,7 +17,6 @@ async function deleteBook(bookId) {
 
 // Event handler for profile.handlebars, "Remove From Favorites"
 function handleRemoveClick(event) {
-  console.log("button clicked");
 
   const targetElement = event.target;
 
@@ -52,12 +51,10 @@ const handleCommentClick = async (event, bookId, commentBox) => {
       // Show the comment-added message
       // const commentMessage = document.querySelector('#comment-message');
       const commentMessage = commentBox.closest('.create-comment').querySelector('.comment-message');
-
       commentMessage.textContent = 'Your comment was added!';
       commentMessage.style.color = 'green';
 
     } else {
-      console.log(response.status);
       alert('Failed to add comment');
     }
   }

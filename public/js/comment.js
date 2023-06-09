@@ -7,7 +7,6 @@ async function bookmarkBook() {
 
   try {
     const response = await axios.post(`/api/books/${bookId}`, {});
-    console.log('Book bookmarked:', response.data);
     alert('Book bookmarked successfully!');
   } catch (error) {
     console.error('Error bookmarking book:', error);

@@ -16,12 +16,12 @@
               <p>-------------------------------------</p>
               <!-- Text Box for user to create a new comment -->
               <div class="flex-grow-1 create-comment">
-                <textarea class="form-control comment-box" id="comment-content" data-id="{{book.id}}" rows="3" placeholder="Add a comment"
-                  style="width: 800px; height: 50px;"></textarea>
-        {{!-- <textarea class="form-input" id="comment-content" name="comment-content" cols="50"></textarea> --}}
-
+                <textarea class="form-control comment-box" id="comment-content" name="comment-content" data-id="{{book.id}}" rows="3" placeholder="Add a comment"
+                  style="width: 800px; height: 50px;"></textarea>\
                 <button type="click" class="btn btn-primary submit-comment"
                   data-id="{{book.id}}">Submit</button>
+                  <div class="comment-message" data-id="{{book.id}}"></div> 
+                  {{!-- <div id="comment-message"></div> --}}
               </div>
               <!-- Book Title and Author -->
               <div>

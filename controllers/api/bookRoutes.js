@@ -9,8 +9,6 @@ const axios = require('axios');
 router.post('/', withAuth, async (req, res) => {
 
   try {
-    console.log("req.body is ", req.body);
-
     // get id of current user
     user_id = req.session.user_id;
 
@@ -21,13 +19,9 @@ router.post('/', withAuth, async (req, res) => {
     // Get user data from User table
     const user = await User.findByPk(user_id);
 
-    console.log("user found is ", user);
-
     // Connects the user to the selected book in the BookUser model
     // user.addBook method is provided by sequelize with a Many to many association 
     await user.addBook(newBook);
-
-    console.log(newBook);
 
     res.status(200).json(newBook);
   } catch (err) {
@@ -37,7 +31,7 @@ router.post('/', withAuth, async (req, res) => {
 });
 
 
-// Create a  NEW COMMENT on a book
+// Create a  NEW COMMENT on a book -- route not used
 // route : POST api/book/comment/:id
 // in comment.js, newCommentHandler
 router.post('/comment/:id', withAuth, async (req, res) => {
@@ -73,7 +67,7 @@ router.post('/comment/:id', withAuth, async (req, res) => {
 });
 
 
-// Get COMMENTs on a book by ID
+// Get COMMENTs on a book by ID -- route not used
 // route : GET api/book/comment/:id
 // in book.js
 router.get('/comment/:id', withAuth, async (req, res) => {
@@ -108,7 +102,7 @@ router.get('/comment/:id', withAuth, async (req, res) => {
   }
 });
 
-// Get COMMENTs on a book by TITLE regardless of user
+// Get COMMENTs on a book by TITLE regardless of user -- route not used
 // route : GET api/book/comment/:id
 // in book.js
 router.get('/comment-title/:title', async (req, res) => {
@@ -130,18 +124,18 @@ router.get('/comment-title/:title', async (req, res) => {
       ]
     });
 
-
     // Serialize data so the template can read it
     const comments = existingComments.map((el) => el.get({ plain: true }));
-    console.log("Comments are", comments);
+    console.log("Comments Objs is", comments);
 
     // Pass data and session flag to book template
     res.render('book', {
       comments,
-      logged_in: req.session.logged_in
+      logged_in: true
     });
+
   } catch (err) {
-    console.log("Error getting comments for book");
+    console.log("Error getting comments for book", err);
     res.status(500).json(err);
   }
 });
@@ -152,6 +146,8 @@ router.get('/comment-title/:title', async (req, res) => {
 router.get('/:id', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;
+    console.log("Book ID IS ", bookId);
+
     const apiKey = process.env.API_KEY;
     const bookApiUrl = `https://www.googleapis.com/books/v1/volumes/${bookId}?key=${apiKey}`;
 
@@ -164,7 +160,38 @@ router.get('/:id', withAuth, async (req, res) => {
         description: result.volumeInfo.description || 'No description available',
         cover: result.volumeInfo.imageLinks?.thumbnail || 'No cover available'
       };
-      res.render('book', book);
+      console.log ("Cover is ", book.cover);
+      // Check for comments on this book in DB
+      // if book_title exists in DB for given title
+      const dbBook = await Book.findOne({
+        where: {
+          book_title: result.volumeInfo.title
+        }
+      });
+
+      let comments = "";
+
+      if (dbBook) {
+        // pull comments for the book
+        const bookComments = await Comment.findAll({
+          where: {
+            book_id: dbBook.id
+          }
+        });
+        if (bookComments) {
+          // Serialize data so the template can read it
+          const com = bookComments.map((el) => el.get({ plain: true }));
+          console.log("Comments Objs is", bookComments);
+          // make available outside this scope
+          comments = com;
+        }
+      }
+
+      // pass the book title, description and comments (if any) to template
+      res.render('book', {
+        book,
+        comments
+      });
     } else {
       throw new Error('Failed to fetch book details from Google Books API');
     }
@@ -173,7 +200,7 @@ router.get('/:id', withAuth, async (req, res) => {
   }
 });
 
-// Fetch the description of a specific book by ID
+// Fetch the description of a specific book by ID -- route not used
 router.get('/:id/description', withAuth, async (req, res) => {
   try {
     const bookId = req.params.id;

@@ -1,5 +1,6 @@
 
-// Delete a book given its ID
+// --------------------- Remove Book----------------------
+// Remove a book from user Favorite given its ID
 async function deleteBook(bookId) {
   const response = await fetch(`/api/books/${bookId}`, {
     method: 'DELETE',
@@ -12,9 +13,10 @@ async function deleteBook(bookId) {
   }
 };
 
+// ---------------------Handle Remove----------------------
 
-// Event handler for profile.handlebars
-function handleButtonClick(event) {
+// Event handler for profile.handlebars, "Remove From Favorites"
+function handleRemoveClick(event) {
   console.log("button clicked");
 
   const targetElement = event.target;
@@ -29,18 +31,12 @@ function handleButtonClick(event) {
   }
 }
 
-const handleCommentClick = async (event, bookId) => {
-// THIS WAS WORKING
-//const handleCommentClick = async (event) => {
+// ---------------------Handle Comment Input----------------------
+const handleCommentClick = async (event, bookId, commentBox) => {
   event.preventDefault();
-  console.log("Inside Comment Click")
-  console.log("Book ID is ", bookId);
   const date_created = Date.now();
   
-  
-  const comment = document.querySelector('#comment-content').value.trim();
-  console.log('comment content is', comment);
-  
+  const comment = commentBox.value.trim();
 
   if (comment) {
     // POST the new COMMENT
@@ -53,8 +49,13 @@ const handleCommentClick = async (event, bookId) => {
     });
   
     if (response.ok) {
-      // list all the comments
-      location.reload();
+      // Show the comment-added message
+      // const commentMessage = document.querySelector('#comment-message');
+      const commentMessage = commentBox.closest('.create-comment').querySelector('.comment-message');
+
+      commentMessage.textContent = 'Your comment was added!';
+      commentMessage.style.color = 'green';
+
     } else {
       console.log(response.status);
       alert('Failed to add comment');
@@ -63,54 +64,22 @@ const handleCommentClick = async (event, bookId) => {
 };
 
 
-// Add event listener on profile.handlebar
-// to a parent element that contains the delete a favorite button
+// ---------------------Event Listeners----------------------
+// Event listener for REMOVE from Favorites button
 document
   .querySelector('.remove-favorites')
-  .addEventListener('click', handleButtonClick);
-
-// Add event listener to signal a comment has been made
-// THIS CODE WAS DETECTING THE SUBMIT COMMENT OK and the RIGHT BOOK ID
-
-// document.addEventListener('click', (event) => {
-//   const submitCommentButton = event.target.closest('.submit-comment');
-//   if (submitCommentButton) {
-//     const bookContainer = submitCommentButton.closest('[data-book-id]');
-//     const bookId = bookContainer.getAttribute('data-book-id');
-//     handleCommentClick(event, bookId);
-//   }
-// });
+  .addEventListener('click', handleRemoveClick);
 
 
-// GETS THE BOOK ID - WORKS
-// document.addEventListener('click', (event) => {
-//   const submitCommentButton = event.target.closest('.submit-comment');
-//   if (submitCommentButton) {
-//     const commentBox = submitCommentButton.parentElement.querySelector('.comment-box');
-//     const bookId = commentBox.getAttribute('data-id');
-//     handleCommentClick(event, bookId);
-//   }
-// });
-
-
+// Event listener for comment SUBMIT button
 document.addEventListener('click', (event) => {
   const submitCommentButton = event.target.closest('.submit-comment');
   if (submitCommentButton) {
     const commentBox = submitCommentButton.closest('.create-comment').querySelector('.comment-box');
     const bookId = commentBox.getAttribute('data-id');
-    handleCommentClick(event, bookId);
+    handleCommentClick(event, bookId, commentBox);
   }
 });
 
 
-
-// Add event listener to signal a comment has been made
-// document.addEventListener('click', (event) => {
-//   const submitCommentButton = event.target.closest('.submit-comment');
-//   if (submitCommentButton) {
-//     const commentBox = submitCommentButton.closest('.create-comment').querySelector('.comment-box');
-//     const bookId = commentBox.getAttribute('data-id');
-//     handleCommentClick(event, bookId);
-//   }
-//});
 

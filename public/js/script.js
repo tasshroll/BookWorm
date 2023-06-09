@@ -54,6 +54,7 @@ function getAPI() {
       const bookId = clickedElement.dataset.bookId;
       if (bookId) {
         // Redirect to the book details page
+        console.log("re-directing to specific book");
         window.location.href = `/books/${bookId}`;
       }
     }

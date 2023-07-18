@@ -11,7 +11,7 @@ This application presents books displayed by genres for users to explore. Users 
 
 # Git Hub Repository
 
-https://github.com/TheColorHieu/BookWorm
+https://github.com/tasshroll/BookWorm
 
 
 # Heroku Deployed App

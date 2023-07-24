@@ -1,16 +1,25 @@
+const maxResults = 10;
+const maxResultsPerGenre = 40; // Set the number of results to fetch per genre
 
-function getAPI() {
+
+// Function to fetch books from the Google Books API
+function getAPI(maxResults, startIndex) {
   const apiKey = 'AIzaSyD2spQD7RpmuMQYgW3iqPZ-avwRM05t9cs';
 
   const genres = ['classics', 'science fiction', 'popular fiction', 'biography'];
   const bookPromises = [];
 
   for (const genre of genres) {
-    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${genre}&maxResults=10&key=${apiKey}`;
+    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${genre}&maxResults=${maxResults}&startIndex=${startIndex}&filter=full&printType=books&orderBy=relevance&key=${apiKey}`;
+
+//    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${genre}&maxResults=${maxResults}&startIndex=${startIndex}&key=${apiKey}`;
+
+
     const bookPromise = fetch(bookApiUrl)
-      .then(response => response.json())
-      .then(result => {
-        const books = result.items.map(item => {
+    .then(response => response.json())
+    .then(result => {
+      const books = result.items.filter(item => item.volumeInfo.description) // Filter out books without descriptions
+        .map(item => {
           return {
             title: item.volumeInfo.title,
             cover: item.volumeInfo.imageLinks?.thumbnail || 'No cover available',
@@ -60,6 +69,10 @@ function getAPI() {
     }
   });
 
+ // Initialize the startIndex to 0
+ 
+  
+  
   Promise.all(bookPromises)
     .then(() => {
       console.log('All books fetched successfully!');
@@ -69,4 +82,24 @@ function getAPI() {
     });
 }
 
-getAPI();
+let startIndex = 0; 
+
+  document.getElementById('displayMoreBtn').addEventListener('click', () => {
+    const currentMaxResults = 10; // The current number of books displayed
+    const newMaxResults = currentMaxResults + 20; // Increase the number by 10 
+  
+    // Remove the existing genre containers to make space for new ones
+    const genreContainers = document.querySelectorAll('.genre-container');
+    genreContainers.forEach(container => {
+      container.remove();
+    });
+  
+    // Call the getAPI() function with  new maxResults and updated startIndex
+    getAPI(newMaxResults, startIndex);
+  
+    // Increment the startIndex for the next API call
+    startIndex += newMaxResults;
+  });
+
+
+getAPI(maxResultsPerGenre, startIndex);

@@ -1,19 +1,21 @@
-const maxResults = 10;
+const maxResults = 20;
 const maxResultsPerGenre = 40; // Set the number of results to fetch per genre
 
 
 // Function to fetch books from the Google Books API
-function getAPI(maxResults, startIndex) {
+function getAPI(maxResultsPerGenre, startIndex) {
   const apiKey = 'AIzaSyD2spQD7RpmuMQYgW3iqPZ-avwRM05t9cs';
+  //TODO: hide the API KEY
+  //const apiKey = process.env.API_KEY;
 
   const genres = ['classics', 'science fiction', 'popular fiction', 'biography'];
   const bookPromises = [];
 
   for (const genre of genres) {
-    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${genre}&maxResults=${maxResults}&startIndex=${startIndex}&filter=full&printType=books&orderBy=relevance&key=${apiKey}`;
+
+    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${genre}&maxResults=${maxResultsPerGenre}&startIndex=${startIndex}&filter=full&printType=books&orderBy=newest&key=${apiKey}`;
 
 //    const bookApiUrl = `https://www.googleapis.com/books/v1/volumes?q=${genre}&maxResults=${maxResults}&startIndex=${startIndex}&key=${apiKey}`;
-
 
     const bookPromise = fetch(bookApiUrl)
     .then(response => response.json())
@@ -85,8 +87,8 @@ function getAPI(maxResults, startIndex) {
 let startIndex = 0; 
 
   document.getElementById('displayMoreBtn').addEventListener('click', () => {
-    const currentMaxResults = 10; // The current number of books displayed
-    const newMaxResults = currentMaxResults + 20; // Increase the number by 10 
+    
+    const newOffset = currentOffset + 20; // Increase the number by 10 
   
     // Remove the existing genre containers to make space for new ones
     const genreContainers = document.querySelectorAll('.genre-container');
@@ -95,11 +97,9 @@ let startIndex = 0;
     });
   
     // Call the getAPI() function with  new maxResults and updated startIndex
-    getAPI(newMaxResults, startIndex);
+    getAPI(maxResultsPerGenre, newOffset);
   
-    // Increment the startIndex for the next API call
-    startIndex += newMaxResults;
   });
 
-
+  const currentOffset = 0; 
 getAPI(maxResultsPerGenre, startIndex);

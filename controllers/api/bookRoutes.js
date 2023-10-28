@@ -30,7 +30,7 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
-
+// TODO Update this route to save the comment
 // Create a  NEW COMMENT on a book -- route not used
 // route : POST api/book/comment/:id
 // in comment.js, newCommentHandler
@@ -64,7 +64,7 @@ router.post('/comment/:id', withAuth, async (req, res) => {
   }
 });
 
-
+// TODO Update this route to retreive saved comments
 // Get COMMENTs on a book by ID -- route not used
 // route : GET api/book/comment/:id
 // in book.js
@@ -96,6 +96,7 @@ router.get('/comment/:id', withAuth, async (req, res) => {
   }
 });
 
+// TODO Update this route
 // Get COMMENTs on a book by TITLE regardless of user -- route not used
 // route : GET api/book/comment/:id
 // in book.js

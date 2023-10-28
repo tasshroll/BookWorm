@@ -1,6 +1,6 @@
 # BookWorm
 
-Bookworm opens the doors to the places where you can find the book you’re looking for. This application allows users to read library books, save thier favorite books, and comment on books.
+Bookworm opens the doors to new and exciting places. Find the perfect book! This application allows users to read books, save thier favorite books, and comment on books.
 
 # Description
 

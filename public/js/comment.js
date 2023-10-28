@@ -1,3 +1,5 @@
+// TODO Is BOOKMARKBOOK is not used. 
+// TODO Implement saving comments to users Data Base 
 const bookmarkBtn = document.querySelector('.bookmark-btn');
 bookmarkBtn.addEventListener('click', bookmarkBook);
 
